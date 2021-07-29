@@ -1,0 +1,15 @@
+{
+    "name": "ESPHome",
+    "builds": [
+        {
+            "chipFamily": "ESP32",
+            "improv": false,
+            "parts": [
+                {
+                    "path": "firmware.esp32.bin",
+                    "offset": 4096
+                }
+            ]
+        }
+    ]
+}
