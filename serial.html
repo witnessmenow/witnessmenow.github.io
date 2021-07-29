@@ -33,6 +33,7 @@
             navigator.serial.requestPort({}).then((port) => {
                 port.open({ baudRate: 115200 });
                 console.log("done?")
+                reader = port.readable.getReader();
                 // Connect to `port` or add it to the list of available ports.
             }).catch((e) => {
                 // The user didn't select a port.

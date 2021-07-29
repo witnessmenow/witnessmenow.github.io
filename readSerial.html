@@ -1,0 +1,63 @@
+<title>Analog Read Serial</title>
+</head>
+
+<body>
+    <p class="bubble">
+        Hi there, kids! Let's play together with bunnies, carrots, and the Web Serial API.
+    </p>
+
+    <noscript>
+        <p class="notice bubble">
+            I'm sorry! For this to actully work you have to enable JavaScript in your browser.
+        </p>
+    </noscript>
+
+    <button id="connect-button" type="button" disabled>🔌 Connect</button>
+
+    <div id="stateText"></div>
+
+
+
+    <script>
+        let lineBuffer = '';
+        let currentState = '';
+        let newState = '';
+
+        stateTextDiv = document.getElementById("stateText");
+
+        function updateText() {
+            if (currentState != newState) {
+                if (newState) {
+                    currentState = newState;
+                    stateTextDiv.innerText = newState;
+                }
+            }
+        }
+
+        setInterval(function () { updateText(); }, 100);
+
+        async function getReader() {
+            port = await navigator.serial.requestPort({});
+            await port.open({ baudrate: 115200 });
+
+            connectButton.innerText = '🔌 Disconnect';
+
+            const appendStream = new WritableStream({
+                write(chunk) {
+                    lineBuffer += chunk;
+
+                    let lines = lineBuffer.split('\n');
+
+                    if (lines.length > 1) {
+                        lineBuffer = lines.pop();
+                        latestValue = parseInt(lines.pop().trim());
+                    }
+                }
+            });
+
+            port.readable
+                .pipeThrough(new TextDecoderStream())
+                .pipeTo(appendStream);
+        }
+    </script>
+</body>
