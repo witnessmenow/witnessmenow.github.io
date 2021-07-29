@@ -36,6 +36,26 @@
 
         setInterval(function () { updateText(); }, 100);
 
+        const connectButton = document.getElementById('connect-button');
+        let port;
+
+        if ('serial' in navigator) {
+            connectButton.addEventListener('click', function () {
+                if (port) {
+                    port.close();
+                    port = undefined;
+
+                    connectButton.innerText = '🔌 Connect';
+                    document.querySelector('figure').classList.replace('bounceIn', 'fadeOut');
+                }
+                else {
+                    getReader();
+                }
+            });
+
+            connectButton.disabled = false;
+        }
+
         async function getReader() {
             port = await navigator.serial.requestPort({});
             await port.open({ baudrate: 115200 });
