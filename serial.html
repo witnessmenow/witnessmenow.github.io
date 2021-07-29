@@ -14,14 +14,14 @@
 
         navigator.serial.addEventListener('connect', (e) => {
             // Connect to `e.target` or add it to a list of available ports.
-            Console.log("Connect");
-            Console.log(e);
+            console.log("Connect");
+            console.log(e);
         });
 
         navigator.serial.addEventListener('disconnect', (e) => {
             // Remove `e.target` from the list of available ports.
-            Console.log("disconnect");
-            Console.log(e);
+            console.log("disconnect");
+            console.log(e);
         });
 
         navigator.serial.getPorts().then((ports) => {
