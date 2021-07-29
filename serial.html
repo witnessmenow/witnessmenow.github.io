@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+
+    <h1>My First Heading</h1>
+
+    <p>My first paragraph.</p>
+
+    <button id="theButton" type="button">Click Me!</button>
+
+    <script>
+        button = document.getElementById("theButton");
+
+        navigator.serial.addEventListener('connect', (e) => {
+            // Connect to `e.target` or add it to a list of available ports.
+            Console.log("Connect");
+            Console.log(e);
+        });
+
+        navigator.serial.addEventListener('disconnect', (e) => {
+            // Remove `e.target` from the list of available ports.
+            Console.log("disconnect");
+            Console.log(e);
+        });
+
+        navigator.serial.getPorts().then((ports) => {
+            // Initialize the list of available ports with `ports` on page load.
+        });
+
+        button.addEventListener('click', () => {
+
+            navigator.serial.requestPort({}).then((port) => {
+                await port.open({ baudRate: 115200 });
+                console.log("done?")
+                // Connect to `port` or add it to the list of available ports.
+            }).catch((e) => {
+                // The user didn't select a port.
+            });
+        });
+    </script>
+
+</body>
+
+</html>
